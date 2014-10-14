@@ -917,7 +917,7 @@ Session.prototype = {
       this.replacee.terminate();
     }
     if (response) {
-      RFC4028.updateState(this.dialog, SIP.Parser.parseMessage(response, this.ua));
+      RFC4028.updateState(this.dialog, response, SIP.Parser.parseMessage, this.ua);
     }
     return this.emit('accepted', response, cause);
   },
