@@ -232,6 +232,9 @@ Session.prototype = {
     extraHeaders.push('Allow: '+ SIP.Utils.getAllowedMethods(this.ua));
     extraHeaders.push('Refer-To: '+ target);
 
+    extraHeaders.push('Allow-Events: refer');
+    extraHeaders.push('Event: refer;id=' + Math.floor((Math.random() * 1000) + 1));
+
     // Send the request
     this.sendRequest(SIP.C.REFER, {
       extraHeaders: extraHeaders,
@@ -241,9 +244,9 @@ Session.prototype = {
           return;
         }
         // hang up only if we transferred to a SIP address
-        if (withReplaces || (target.scheme && target.scheme.match("^sips?$"))) {
-          this.terminate();
-        }
+        // if (withReplaces || (target.scheme && target.scheme.match("^sips?$"))) {
+        //   this.terminate();
+        // }
       }.bind(this)
     });
     return this;
@@ -720,6 +723,9 @@ Session.prototype = {
             this.emit('refer', request);
           }
         }
+        break;
+      case SIP.C.NOTIFY:
+        request.reply(200, 'OK');
         break;
     }
   },
@@ -2126,15 +2132,19 @@ InviteClientContext.prototype = {
     var cancel_reason = SIP.Utils.getCancelReason(options.status_code, options.reason_phrase);
 
     // Check Session Status
-    if (this.status === C.STATUS_NULL ||
-        (this.status === C.STATUS_INVITE_SENT && !this.received_100)) {
-      this.isCanceled = true;
-      this.cancelReason = cancel_reason;
-    } else if (this.status === C.STATUS_INVITE_SENT ||
-               this.status === C.STATUS_1XX_RECEIVED ||
-               this.status === C.STATUS_EARLY_MEDIA) {
+    // if (this.status === C.STATUS_NULL ||
+    //     (this.status === C.STATUS_INVITE_SENT && !this.received_100)) {
+    //   this.isCanceled = true;
+    //   this.cancelReason = cancel_reason;
+    // } else if (this.status === C.STATUS_INVITE_SENT ||
+    //            this.status === C.STATUS_1XX_RECEIVED ||
+    //            this.status === C.STATUS_EARLY_MEDIA) {
+    try {
       this.request.cancel(cancel_reason);
+    } catch (error) {
+      // Do nothing.
     }
+    // }
 
     return this.canceled();
   },
