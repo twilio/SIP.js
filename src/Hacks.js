@@ -12,7 +12,7 @@ var Hacks = {
   AllBrowsers: {
     maskDtls: function (message) {
       if (message.body) {
-        message.body = message.body.replace(/ UDP\/TLS\/RTP\/SAVP/gmi, " RTP/SAVP");
+        // message.body = message.body.replace(/ UDP\/TLS\/RTP\/SAVP/gmi, " RTP/SAVP");
       }
     },
     unmaskDtls: function (sdp) {
@@ -27,7 +27,7 @@ var Hacks = {
        * Opera now supports DTLS by default as well.
        *
        **/
-      return sdp.replace(/ RTP\/SAVP/gmi, " UDP/TLS/RTP/SAVP");
+      return sdp; // return sdp.replace(/ RTP\/SAVP/gmi, " UDP/TLS/RTP/SAVP");
     }
   },
   Firefox: {
