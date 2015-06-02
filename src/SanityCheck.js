@@ -178,7 +178,7 @@ requests.push(rfc3261_18_3_request);
 requests.push(rfc3261_8_2_2_2);
 
 responses.push(rfc3261_8_1_3_3);
-responses.push(rfc3261_18_1_2);
+// responses.push(rfc3261_18_1_2);
 responses.push(rfc3261_18_3_response);
 
 all.push(minimumHeaders);
