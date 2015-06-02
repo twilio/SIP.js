@@ -471,7 +471,7 @@ MediaHandler.prototype = Object.create(SIP.MediaHandler.prototype, {
       .then(SIP.Utils.promisify(pc, 'setLocalDescription'))
       .then(function onSetLocalDescriptionSuccess() {
         var deferred = SIP.Utils.defer();
-        if (pc.iceGatheringState === 'complete' && (pc.iceConnectionState === 'connected' || pc.iceConnectionState === 'completed')) {
+        if (pc.iceConnectionState === 'complete' || pc.iceConnectionState === 'completed') {
           deferred.resolve();
         } else {
           self.onIceCompleted.promise.then(deferred.resolve);
