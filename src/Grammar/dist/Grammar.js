@@ -182,7 +182,7 @@ module.exports = (function() {
           function() {
                               options.data.password = text(); },
           function() {
-                              options.data.host = text();
+                              options.data.host = text().toLowerCase();
                               return options.data.host; },
           function() {
                             options.data.host_type = 'domain';
