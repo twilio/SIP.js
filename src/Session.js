@@ -2132,19 +2132,15 @@ InviteClientContext.prototype = {
     var cancel_reason = SIP.Utils.getCancelReason(options.status_code, options.reason_phrase);
 
     // Check Session Status
-    // if (this.status === C.STATUS_NULL ||
-    //     (this.status === C.STATUS_INVITE_SENT && !this.received_100)) {
-    //   this.isCanceled = true;
-    //   this.cancelReason = cancel_reason;
-    // } else if (this.status === C.STATUS_INVITE_SENT ||
-    //            this.status === C.STATUS_1XX_RECEIVED ||
-    //            this.status === C.STATUS_EARLY_MEDIA) {
-    try {
+    if (this.status === C.STATUS_NULL ||
+        (this.status === C.STATUS_INVITE_SENT && !this.received_100)) {
+      this.isCanceled = true;
+      this.cancelReason = cancel_reason;
+    } else if (this.status === C.STATUS_INVITE_SENT ||
+               this.status === C.STATUS_1XX_RECEIVED ||
+               this.status === C.STATUS_EARLY_MEDIA) {
       this.request.cancel(cancel_reason);
-    } catch (error) {
-      // Do nothing.
     }
-    // }
 
     return this.canceled();
   },
