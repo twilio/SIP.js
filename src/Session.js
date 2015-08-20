@@ -722,6 +722,7 @@ Session.prototype = {
         }
         break;
       case SIP.C.NOTIFY:
+        this.emit('notify', request);
         request.reply(200, 'OK');
         break;
     }
