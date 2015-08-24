@@ -55,9 +55,11 @@ function updateState (dialog, response, parseMessage, ua) {
 }
 
 function receiveResponse(response) {
+  /* jshint unused: false */
 }
 
 function onDialogError(response) {
+  /* jshint unused: false */
 }
 
 return {
