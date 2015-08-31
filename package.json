@@ -36,8 +36,7 @@
     "grunt-contrib-jshint": ">0.5.0",
     "grunt-contrib-uglify": "~0.2.0",
     "grunt-peg": "~1.3.1",
-    "grunt-trimtrailingspaces": "^0.4.0",
-    "pegjs": "^0.8.0"
+    "grunt-trimtrailingspaces": "^0.4.0"
   },
   "engines": {
     "node": ">=0.12"
@@ -46,11 +45,12 @@
   "scripts": {
     "repl": "beefy test/repl.js --open",
     "build": "grunt build",
-    "postinstall": "npm install pegjs && cd src/Grammar && mkdir -p dist && pegjs --extra-options-file peg.json src/Grammar.pegjs dist/Grammar.js",
+    "postinstall": "cd src/Grammar && mkdir -p dist && pegjs --extra-options-file peg.json src/Grammar.pegjs dist/Grammar.js",
     "test": "grunt travis --verbose"
   },
   "dependencies": {
-    "ws": "^1.0.1"
+    "ws": "^1.0.1",
+    "pegjs": "^0.8.0"
   },
   "optionalDependencies": {
     "promiscuous": "^0.6.0"
