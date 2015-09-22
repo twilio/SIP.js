@@ -303,11 +303,13 @@ MediaHandler.prototype = Object.create(SIP.MediaHandler.prototype, {
   }},
 
   /**
-  * Message reception.
-  * @param {String} type
-  * @param {String} sdp
-  */
-  setDescription: {writable: true, value: function setDescription (sdp) {
+   * Set the session description contained in a SIP message.
+   * @param {SIP.SIPMessage} message
+   * @returns {Promise}
+   */
+  setDescription: {writable: true, value: function setDescription (message) {
+    var sdp = message.body;
+
     sdp = SIP.Hacks.Firefox.cannotHandleExtraWhitespace(sdp);
     sdp = SIP.Hacks.AllBrowsers.maskDtls(sdp);
 
