@@ -554,7 +554,7 @@ Session.prototype = {
       return;
     }
 
-    this.mediaHandler.setDescription(request.body)
+    this.mediaHandler.setDescription(request)
     .then(this.mediaHandler.getDescription.bind(this.mediaHandler, this.mediaHint))
     .then(function(body) {
       request.reply(200, null, ['Contact: ' + self.contact], body,
@@ -731,7 +731,7 @@ Session.prototype = {
         }
 
         //REVISIT
-        this.mediaHandler.setDescription(response.body)
+        this.mediaHandler.setDescription(response)
         .then(
           function onSuccess () {
             self.reinviteSucceeded();
@@ -1058,7 +1058,7 @@ InviteServerContext = function(ua, request) {
     SIP.Timers.setTimeout(fireNewSession, 0);
   } else {
     this.hasOffer = true;
-    this.mediaHandler.setDescription(request.body)
+    this.mediaHandler.setDescription(request)
     .then(
       fireNewSession,
       function onFailure (e) {
@@ -1503,7 +1503,7 @@ InviteServerContext.prototype = {
           if(this.mediaHandler.hasDescription(request)) {
             // ACK contains answer to an INVITE w/o SDP negotiation
             this.hasAnswer = true;
-            this.mediaHandler.setDescription(request.body)
+            this.mediaHandler.setDescription(request)
             .then(
               confirmSession.bind(this),
               function onFailure (e) {
@@ -1534,7 +1534,7 @@ InviteServerContext.prototype = {
         if(!this.hasAnswer) {
           if(this.mediaHandler.hasDescription(request)) {
             this.hasAnswer = true;
-            this.mediaHandler.setDescription(request.body)
+            this.mediaHandler.setDescription(request)
             .then(
               function onSuccess () {
                 SIP.Timers.clearTimeout(this.timers.rel1xxTimer);
@@ -1910,7 +1910,7 @@ InviteClientContext.prototype = {
             this.hasAnswer = true;
             this.dialog.pracked.push(response.getHeader('rseq'));
 
-            this.mediaHandler.setDescription(response.body)
+            this.mediaHandler.setDescription(response)
             .then(
               function onSuccess () {
                 extraHeaders.push('RAck: ' + response.getHeader('rseq') + ' ' + response.getHeader('cseq'));
@@ -1945,7 +1945,7 @@ InviteClientContext.prototype = {
 
             earlyDialog.pracked.push(response.getHeader('rseq'));
 
-            earlyMedia.setDescription(response.body)
+            earlyMedia.setDescription(response)
             .then(earlyMedia.getDescription.bind(earlyMedia, session.mediaHint))
             .then(function onSuccess(sdp) {
               extraHeaders.push('Content-Type: application/sdp');
@@ -2044,7 +2044,7 @@ InviteClientContext.prototype = {
               break;
             }
             this.hasOffer = true;
-            this.mediaHandler.setDescription(response.body)
+            this.mediaHandler.setDescription(response)
             .then(this.mediaHandler.getDescription.bind(this.mediaHandler, this.mediaHint))
             .then(function onSuccess(sdp) {
               //var localMedia;
@@ -2098,7 +2098,7 @@ InviteClientContext.prototype = {
             break;
           }
           this.hasAnswer = true;
-          this.mediaHandler.setDescription(response.body)
+          this.mediaHandler.setDescription(response)
           .then(
             function onSuccess () {
               var options = {};//,localMedia;
