@@ -23,6 +23,7 @@ var MediaHandler = function(session, options) {
   this.mediaStreamManager = options.mediaStreamManager || new SIP.WebRTC.MediaStreamManager(this.logger);
   this.audioMuted = false;
   this.videoMuted = false;
+  this.onhold = false;
 
   // old init() from here on
   var idx, jdx, length, server,
@@ -275,6 +276,18 @@ MediaHandler.prototype = Object.create(SIP.MediaHandler.prototype, {
       })
       .then(function(sdp) {
         sdp = SIP.Hacks.Firefox.hasMissingCLineInSDP(sdp);
+
+        if (self.onhold) {
+          // Don't receive media
+          // TODO - This will break for media streams with different directions.
+          if (!(/a=(sendrecv|sendonly|recvonly|inactive)/).test(sdp)) {
+            sdp = sdp.replace(/(m=[^\r]*\r\n)/g, '$1a=sendonly\r\n');
+          } else {
+            sdp = sdp.replace(/a=sendrecv\r\n/g, 'a=sendonly\r\n');
+            sdp = sdp.replace(/a=recvonly\r\n/g, 'a=inactive\r\n');
+          }
+        }
+
         return sdp;
       })
     ;
@@ -408,11 +421,14 @@ MediaHandler.prototype = Object.create(SIP.MediaHandler.prototype, {
   }},
 
   hold: {writable: true, value: function hold () {
+    this.onhold = true;
     this.toggleMuteAudio(true);
     this.toggleMuteVideo(true);
   }},
 
   unhold: {writable: true, value: function unhold () {
+    this.onhold = false;
+
     if (!this.audioMuted) {
       this.toggleMuteAudio(false);
     }

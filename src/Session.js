@@ -498,21 +498,7 @@ Session.prototype = {
 
     this.onhold('local');
 
-    this.sendReinvite({
-      mangle: function(body){
-
-        // Don't receive media
-        // TODO - This will break for media streams with different directions.
-        if (!(/a=(sendrecv|sendonly|recvonly|inactive)/).test(body)) {
-          body = body.replace(/(m=[^\r]*\r\n)/g, '$1a=sendonly\r\n');
-        } else {
-          body = body.replace(/a=sendrecv\r\n/g, 'a=sendonly\r\n');
-          body = body.replace(/a=recvonly\r\n/g, 'a=inactive\r\n');
-        }
-
-        return body;
-      }
-    });
+    this.sendReinvite();
   },
 
   /**
@@ -583,7 +569,7 @@ Session.prototype = {
           self.setACKTimer();
 
           // Are we holding?
-          var hold = (/a=(sendonly|inactive)/).test(request.body);
+          var hold = self.mediaHandler.onhold;
 
           if (self.remote_hold && !hold) {
             self.onunhold('remote');
@@ -610,8 +596,7 @@ Session.prototype = {
     var
       self = this,
        extraHeaders = (options.extraHeaders || []).slice(),
-       eventHandlers = options.eventHandlers || {},
-       mangle = options.mangle || null;
+       eventHandlers = options.eventHandlers || {};
 
     if (eventHandlers.succeeded) {
       this.reinviteSucceeded = eventHandlers.succeeded;
@@ -635,7 +620,6 @@ Session.prototype = {
     this.receiveResponse = this.receiveReinviteResponse;
     //REVISIT
     this.mediaHandler.getDescription(self.mediaHint)
-    .then(mangle)
     .then(
       function(body){
         self.dialog.sendRequest(self, SIP.C.INVITE, {
