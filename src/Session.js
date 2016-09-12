@@ -648,9 +648,14 @@ Session.prototype = {
         }
         break;
       case SIP.C.INFO:
-        if(this.status === C.STATUS_CONFIRMED || this.status === C.STATUS_WAITING_FOR_ACK) {
-          if (this.infoHandler) {
-            return this.infoHandler(request);
+        if (this.status === C.STATUS_1XX_RECEIVED ||
+            this.status === C.STATUS_WAITING_FOR_PRACK ||
+            this.status === C.STATUS_WAITING_FOR_ACK ||
+            this.status === C.STATUS_ANSWERED_WAITING_FOR_PRACK ||
+            this.status === C.STATUS_EARLY_MEDIA ||
+            this.status === C.STATUS_CONFIRMED) {
+          if (this.onInfo) {
+            return this.onInfo(request);
           }
 
           var body, tone, duration,
@@ -1314,7 +1319,7 @@ InviteServerContext.prototype = {
     SIP.Utils.optionsOverride(options, 'media', 'mediaConstraints', true, this.logger, this.ua.configuration.media);
     this.mediaHint = options.media;
 
-    this.infoHandler = options.infoHandler;
+    this.onInfo = options.onInfo;
 
     // commented out now-unused hold-related variables for jshint. See below. JMF 2014-1-21
     var
@@ -1766,7 +1771,7 @@ InviteClientContext = function(ua, target, options) {
   SIP.Utils.optionsOverride(options, 'media', 'mediaConstraints', true, this.logger, this.ua.configuration.media);
   this.mediaHint = options.media;
 
-  this.infoHandler = options.infoHandler;
+  this.onInfo = options.onInfo;
 };
 
 InviteClientContext.prototype = {
