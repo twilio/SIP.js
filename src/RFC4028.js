@@ -62,12 +62,22 @@ function onDialogError(response) {
   /* jshint unused: false */
 }
 
+function onRequestTimeout() {
+  /* jshint unused: false */
+}
+
+function onTransportError() {
+  /* jshint unused: false */
+}
+
 return {
   localMinSE: localMinSE,
   hasSmallMinSE: hasSmallMinSE,
   updateState: updateState,
   receiveResponse: receiveResponse,
-  onDialogError: onDialogError
+  onDialogError: onDialogError,
+  onRequestTimeout: onRequestTimeout,
+  onTransportError: onTransportError
 };
 
 };
