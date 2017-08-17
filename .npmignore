@@ -1,5 +1,7 @@
 node_modules/
-dist/sip*
+dist
 .grunt
 _SpecRunner.html
 test/
+npm-debug.log
+package-lock.json
