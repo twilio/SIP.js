@@ -1,5 +1,5 @@
 {
-  "name": "sip.js",
+  "name": "@twilio/sip.js",
   "version": "0.7.5",
   "authors": [
     "James Criscuolo <james@onsip.com>",

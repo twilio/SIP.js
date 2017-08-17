@@ -42,7 +42,7 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     pkg: pkg,
-    name: pkg.name.replace(/\.js$/, ''),
+    name: 'sip',
     meta: {
       banner: banner
     },

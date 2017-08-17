@@ -1,21 +1,3 @@
-# Doc: http://manuel.manuelles.nl/blog/2012/06/22/integrate-travis-ci-into-grunt/
-
-sudo: false
-
 language: node_js
-
-node_js:
-  - "0.12"
-  - "4.2"
-  - "stable"
-
-cache:
-  directories:
-    - node_modules
-
-notifications:
-  email:
-    recipients:
-      secure: fe88XKh8U+bt2eSkZFKPG//d1i/pYEcG9WqXGRwRd1YzrhM9DVOUPXN5xhNADgfBK0PNZUEga+UMlAcrtt6PgBDZQhQsGWDb720wGLA4UoyerFInYeqb8Pue9V1FJnniys5APwxHAreYONDBRwerKx3OZ0Jz64vHyG1XNaBzlqU=
-    on_success: change
-    on_failure: always
+node_js: 7
+script: npm run build
