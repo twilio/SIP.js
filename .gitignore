@@ -1,5 +1,5 @@
 node_modules/
-dist
+/dist
 .grunt
 _SpecRunner.html
 src/Grammar/dist/Grammar.js
