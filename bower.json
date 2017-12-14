@@ -1,6 +1,6 @@
 {
   "name": "@twilio/sip.js",
-  "version": "0.7.7-rc1",
+  "version": "0.7.7-dev",
   "authors": [
     "James Criscuolo <james@onsip.com>",
     "Joseph Frazier <1212jtraceur@gmail.com>",
